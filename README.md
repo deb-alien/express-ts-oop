@@ -63,3 +63,72 @@ interface IRoute {
     localMiddleware: RequestHandler[];
 }
 ```
+
+## Controller Usage Example
+
+### 1. Create a Controller by extending `BaseController`
+
+```ts
+import { Request, Response } from 'express';
+import BaseController from '../../core/base-controller';
+import { HTTP_METHODS, IRoute } from '../../core/types';
+
+export default class UserController extends BaseController {
+  // Base path for this controller's routes
+  public path = 'users';
+
+  // Define routes for this controller
+  protected readonly routes: IRoute[] = [
+    {
+      path: '/',                      // Route path appended to base path ('/users/')
+      method: HTTP_METHODS.GET,       // HTTP method
+      handler: this.getUsers,         // Route handler
+      localMiddleware: [],            // Route-specific middleware (optional)
+    },
+    {
+      path: '/',
+      method: HTTP_METHODS.POST,
+      handler: this.createUser,
+      localMiddleware: [],
+    },
+  ];
+
+  // Handler for GET /users
+  private getUsers(req: Request, res: Response) {
+    res.send('List of users');
+  }
+
+  // Handler for POST /users
+  private createUser(req: Request, res: Response) {
+    res.send('User Created');
+  }
+}
+```
+
+### 2. Register Controller in your main app bootstrap
+```ts
+import express from 'express';
+import Server from './core/server';
+import UserController from './modules/user/user.controller';
+
+const app = express();
+const server = new Server(app, 3000);
+
+const controllers = [new UserController()];
+
+async function bootstrap() {
+  server.LoadControllers(controllers);
+  server.run();
+}
+
+bootstrap();
+```
+
+### 3. Routes exposed
+
+| HTTP Method | Route    | Description         |
+| ----------- | -------- | ------------------- |
+| GET         | `/users` | Fetch list of users |
+| POST        | `/users` | Create a new user   |
+
+You can add route-specific middleware by including them in the localMiddleware array for each route.
