@@ -36,7 +36,7 @@ export default class Server {
 
 	public async ConnectDB(): Promise<void> {
 		try {
-			const conn = await mongoose.connect(appConfig.mongoURI);
+			const conn = await mongoose.connect(appConfig.mongoURI!);
 			console.log(
 				`${chalk.greenBright('[Database Connected]')} ${chalk.cyanBright(
 					`[HOST]: ${conn.connection.host}`

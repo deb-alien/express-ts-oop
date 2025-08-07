@@ -2,8 +2,11 @@
 	"compilerOptions": {
 		"target": "ES2020",
 		"module": "commonjs",
-		"esModuleInterop": true,
 		"rootDir": "./src",
-		"outDir": "./build"
+		"outDir": "./build",
+		"strict": true,
+		"experimentalDecorators": true,
+		"strictPropertyInitialization": false,
+		"esModuleInterop": true,
 	}
 }

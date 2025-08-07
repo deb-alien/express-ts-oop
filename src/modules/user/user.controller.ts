@@ -17,13 +17,23 @@ export default class UserController extends BaseController {
 			handler: this.createUser,
 			localMiddleware: [],
 		},
+		{
+			path: '/:id',
+			method: HTTP_METHODS.GET,
+			handler: this.getUserById,
+			localMiddleware: [],
+		},
 	];
 
 	private getUsers(req: Request, res: Response) {
-		res.send('List of users ');
+		res.send('get users');
 	}
 
 	private createUser(req: Request, res: Response) {
-		res.send('User Created');
+		res.send('create users');
+	}
+
+	private getUserById(req: Request, res: Response) {
+		res.send('get user by id');
 	}
 }
